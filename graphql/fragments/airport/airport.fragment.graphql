@@ -1,0 +1,9 @@
+fragment AirportFragment on Airport {
+  code
+  name
+  id
+  city
+  country
+  geoPos
+  active
+}

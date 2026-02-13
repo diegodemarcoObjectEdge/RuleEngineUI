@@ -1,0 +1,41 @@
+query GetCompanies($filter: CompanyFilterInput, $pagination: PaginationInput) {
+  companies(filter: $filter, pagination: $pagination) {
+    totalCount
+    pagination {
+      limit
+      offset
+    }
+    results {
+      ...CompanyFragment
+      lounges {
+        id
+        name
+      }
+    }
+  }
+}
+
+query GetCompanyList($filter: CompanyFilterInput) {
+  companies(filter: $filter) {
+    totalCount
+    pagination {
+      limit
+      offset
+    }
+    results {
+      ...CompanyFragment
+    }
+  }
+}
+
+query GetCompany($id: ID!) {
+  company(id: $id) {
+    ...CompanyFragment
+  }
+}
+
+query GetCompaniesAmount {
+  companies {
+    totalCount
+  }
+}

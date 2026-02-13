@@ -1,0 +1,4 @@
+{
+  "/graphql/route": "app/graphql/route.js",
+  "/rule-engine/page": "app/rule-engine/page.js"
+}

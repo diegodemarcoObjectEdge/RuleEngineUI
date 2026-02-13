@@ -1,0 +1,200 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model RuleEngine {
+  id               Int               @id @default(autoincrement())
+  companyId        Int               @map("company_id")
+  createdAt        DateTime          @default(now()) @map("created_at")
+  name             String
+  type             String
+  currentModelId   Int?              @unique @map("current_model_id")
+  currentModel     RuleEngineModel?  @relation("currentModel", fields: [currentModelId], references: [id])
+  ruleEngineModels RuleEngineModel[] @relation("ruleEngine")
+  ruleEngineFields RuleEngineField[]
+
+  @@unique([companyId, type])
+  @@index([companyId])
+  @@index([companyId, type, currentModelId])
+  @@map("rule_engine")
+
+}
+
+model RuleEngineModel {
+  id                   Int      @id @default(autoincrement())
+  ruleEngineId         Int      @map("rule_engine_id")
+  createdAt            DateTime @default(now()) @map("created_at")
+  model                String     @default("{}")
+  ruleEngineMetadataId Int?     @map("rule_engine_model_metadata_id")
+
+  ruleEngine          RuleEngine               @relation("ruleEngine", fields: [ruleEngineId], references: [id])
+  ruleEngineCurrent   RuleEngine?              @relation("currentModel")
+  RuleEngineDecisions RuleEngineDecision[]
+  ruleEngineMetadata  RuleEngineModelMetadata? @relation(fields: [ruleEngineMetadataId], references: [id])
+
+  @@map("rule_engine_model")
+
+}
+
+model RuleEngineModelMetadata {
+  id        Int      @id @default(autoincrement())
+  companyId Int      @map("company_id")
+  metadata  String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  ruleEngineModels RuleEngineModel[]
+
+  @@map("rule_engine_model_metadata")
+
+}
+
+model RuleEngineDecision {
+  id                Int             @id @default(autoincrement())
+  ruleEngineModelId Int             @map("rule_engine_model_id")
+  userId            Int             @map("user_id")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  type              String
+  referenceId       String?
+  input             String
+  output            String?
+  decision          String            @default("{}")
+  error             String?
+  ruleEngineModel   RuleEngineModel @relation(fields: [ruleEngineModelId], references: [id])
+
+  @@map("rule_engine_decision")
+
+}
+
+model TagGroup {
+  id        Int      @id @default(autoincrement())
+  companyId Int      @map("company_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  name      String
+  order     Int
+
+  tags Tag[]
+
+  @@map("tag_group")
+
+}
+
+model Tag {
+  id              Int        @id @default(autoincrement())
+  companyId       Int        @map("company_id")
+  tagGroupId      Int        @map("tag_group_id")
+  status          String     @default("ACTIVE")
+  name            String
+  greetingMessage String     @map("greeting_message")
+  type            String
+  subType         String
+  order           Int
+  createdAt       DateTime   @default(now()) @map("created_at")
+
+  tagGroup TagGroup @relation(fields: [tagGroupId], references: [id])
+  rules    Rule[]
+
+  @@map("tag")
+
+}
+
+model Rule {
+  id          Int        @id @default(autoincrement())
+  companyId   Int        @map("company_id")
+  tagId       Int        @map("tag_id")
+  description String
+  status      String     @default("ACTIVE")
+  startDate   DateTime   @map("start_date")
+  endDate     DateTime?  @map("end_date")
+  order       Int
+  createdAt   DateTime   @default(now()) @map("created_at")
+
+  tag             Tag              @relation(fields: [tagId], references: [id])
+  ruleFieldValues RuleFieldValue[]
+
+  @@map("rule")
+
+}
+
+model FieldGroup {
+  id        Int            @id @default(autoincrement())
+  companyId Int            @map("company_id")
+  code      String
+  name      String
+  order     Int
+  type      String
+
+  fields Field[]
+
+  @@map("field_group")
+
+}
+
+model FieldType {
+  id               Int           @id @default(autoincrement())
+  companyId        Int           @map("company_id")
+  code             String
+  label            String
+  baseType         String @map("base_type")
+  typeConfig       String          @map("type_config")
+  allowedOperators String          @map("allowed_operators")
+  isArray          Boolean       @default(false) @map("is_array")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+
+  fields Field[]
+
+  @@unique([companyId, code])
+  @@map("field_type")
+
+}
+
+model Field {
+  id           Int    @id @default(autoincrement())
+  companyId    Int    @map("company_id")
+  fieldGroupId Int    @map("field_group_id")
+  fieldTypeId  Int    @map("field_type_id")
+  name         String
+  path         String
+  order        Int
+
+  fieldGroup       FieldGroup        @relation(fields: [fieldGroupId], references: [id])
+  fieldType        FieldType         @relation(fields: [fieldTypeId], references: [id])
+  ruleFieldValues  RuleFieldValue[]
+  ruleEngineFields RuleEngineField[]
+
+  @@unique([fieldGroupId, name])
+  @@map("field")
+
+}
+
+model RuleEngineField {
+  id           Int @id @default(autoincrement())
+  ruleEngineId Int @map("rule_engine_id")
+  fieldId      Int @map("field_id")
+
+  ruleEngine RuleEngine @relation(fields: [ruleEngineId], references: [id])
+  field      Field      @relation(fields: [fieldId], references: [id])
+
+  @@unique([ruleEngineId, fieldId])
+  @@map("rule_engine_field")
+
+}
+
+model RuleFieldValue {
+  id      Int  @id @default(autoincrement())
+  ruleId  Int  @map("rule_id")
+  fieldId Int  @map("field_id")
+  value   String
+
+  rule  Rule  @relation(fields: [ruleId], references: [id])
+  field Field @relation(fields: [fieldId], references: [id])
+
+  @@map("rule_field_value")
+
+}

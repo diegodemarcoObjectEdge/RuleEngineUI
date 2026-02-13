@@ -1,0 +1,27 @@
+fragment UserFragment on User {
+  id
+  status
+  name
+  email
+  createdAt
+  company {
+    id
+    name
+  }
+  profile {
+    id
+    name
+  }
+  lounges {
+    id
+    name
+    code
+    status
+  }
+  singleSignOn {
+    singleSignOnId
+    singleSignOnType
+    userSingleSignOnId
+  }
+  hasCredentials
+}

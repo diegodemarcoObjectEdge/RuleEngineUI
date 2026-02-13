@@ -1,0 +1,27 @@
+query GetCompanyGroups(
+  $filter: CompanyGroupFilterInput
+  $pagination: PaginationInput
+) {
+  companyGroups(filter: $filter, pagination: $pagination) {
+    results {
+      ...CompanyGroupFragment
+    }
+    pagination {
+      offset
+      limit
+    }
+    totalCount
+  }
+}
+
+query GetCompanyGroup($id: ID!) {
+  companyGroup(id: $id) {
+    ...CompanyGroupFragment
+  }
+}
+
+query GetCompanyGroupsAmount {
+  companyGroups {
+    totalCount
+  }
+}

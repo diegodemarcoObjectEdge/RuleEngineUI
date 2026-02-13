@@ -1,0 +1,19 @@
+query GetAirport($filter: AirportUniqueFilterInput!) {
+  airport(filter: $filter) {
+    id
+    code
+    name
+    city
+    country
+  }
+}
+
+query GetAirports($filter: AirportFilterInput, $pagination: PaginationInput) {
+  airports(filter: $filter, pagination: $pagination) {
+    totalCount
+    results {
+      ...AirportFragment
+    }
+  }
+}
+

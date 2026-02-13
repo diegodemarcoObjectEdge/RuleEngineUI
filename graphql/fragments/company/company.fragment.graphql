@@ -1,0 +1,18 @@
+fragment CompanyFragment on Company {
+  id
+  name
+  shortName
+  code
+  lightBackgroundLogoUrl
+  darkBackgroundLogoUrl
+  logomarkUrl
+  status
+  partnerCompanyGroup {
+    id
+    name
+  }
+  reentryWindowMinutes
+  reentryWindowType
+  egateReentryWindowMinutes
+  reportsDedupingWindowMinutes
+}

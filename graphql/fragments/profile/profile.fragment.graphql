@@ -1,0 +1,12 @@
+fragment ProfileFragment on Profile {
+  id
+  name
+  permissions {
+    id
+    name
+  }
+  company {
+    id
+    name
+  }
+}

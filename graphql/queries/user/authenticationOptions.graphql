@@ -1,0 +1,9 @@
+query GetAuthenticationOptions($companyId: String) {
+  authenticationOptions(companyId: $companyId) {
+    id
+    type
+    code
+    name
+    display
+  }
+}

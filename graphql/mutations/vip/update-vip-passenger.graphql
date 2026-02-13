@@ -1,0 +1,3 @@
+mutation UpdateVipPassenger($companyId: String!, $id: ID!, $input: UpdateVipPassengerInput!) {
+  updateVipPassenger(companyId: $companyId, id: $id, input: $input) { id }
+}

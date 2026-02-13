@@ -1,0 +1,15 @@
+mutation CreateCompany($input: CreateCompanyPayload!) {
+  createCompany(input: $input) {
+    ...CompanyFragment
+  }
+}
+
+mutation UpdateCompany($id: ID!, $input: UpdateCompanyPayload!) {
+  updateCompany(id: $id, input: $input) {
+    ...CompanyFragment
+  }
+}
+
+mutation DeleteCompany($id: ID!) {
+  deleteCompany(id: $id)
+}

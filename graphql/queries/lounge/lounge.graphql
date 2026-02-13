@@ -1,0 +1,22 @@
+query GetLounges(
+  $companyId: String
+  $filter: LoungeFilterInput
+  $pagination: PaginationInput
+) {
+  lounges(companyId: $companyId, filter: $filter, pagination: $pagination) {
+    pagination {
+      limit
+      offset
+    }
+    totalCount
+    results {
+      ...LoungeFragment
+    }
+  }
+}
+
+query GetLoungesAmount {
+  lounges {
+    totalCount
+  }
+}

@@ -1,0 +1,51 @@
+query GetSettlementChargeRules(
+  $companyId: String
+  $filter: SettlementChargeRuleFilterInput
+  $pagination: PaginationInput
+) {
+  settlementChargeRules(
+    companyId: $companyId
+    filter: $filter
+    pagination: $pagination
+  ) {
+    totalCount
+    pagination {
+      offset
+      limit
+    }
+    results {
+      ...SettlementChargeRuleFragment
+    }
+  }
+}
+
+query GetSettlementChargeRule($companyId: String!, $id: Int!) {
+  settlementChargeRule(companyId: $companyId, id: $id) {
+    ...SettlementChargeRuleFragment
+  }
+}
+
+fragment SettlementChargeRuleFragment on SettlementChargeRule {
+  id
+  company {
+    id
+    name
+  }
+  settlementCharge {
+    amount
+    currencyCode
+  }
+  airlineCarrier
+  departureAirport {
+    code
+  }
+  loungeTier
+  billingAirlineId
+  settlementMethod
+  unitOfMeasure
+  taxCode
+  billedLocationCode
+  billingLocationCode
+  contractNumber
+  loungeCode
+}

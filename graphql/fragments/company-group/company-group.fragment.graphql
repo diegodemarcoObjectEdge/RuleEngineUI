@@ -1,0 +1,13 @@
+fragment CompanyGroupFragment on CompanyGroup {
+  id
+  name
+  lightBackgroundLogoUrl
+  darkBackgroundLogoUrl
+  logomarkUrl
+  status
+  companies {
+    id
+    shortName
+    status
+  }
+}

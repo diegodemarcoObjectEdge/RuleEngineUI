@@ -1,0 +1,15 @@
+mutation CreateCompanyGroup($input: CreateCompanyGroupPayload!) {
+  createCompanyGroup(input: $input) {
+    ...CompanyGroupFragment
+  }
+}
+
+mutation UpdateCompanyGroup($id: ID!, $input: UpdateCompanyGroupPayload!) {
+  updateCompanyGroup(id: $id, input: $input) {
+    ...CompanyGroupFragment
+  }
+}
+
+mutation DeleteCompanyGroup($id: ID!) {
+  deleteCompanyGroup(id: $id)
+}

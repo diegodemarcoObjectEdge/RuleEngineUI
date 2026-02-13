@@ -1,0 +1,18 @@
+query GetLoungeTiers($companyId: String, $filter: LoungeTierFilterInput, $pagination: PaginationInput) {
+  loungeTiers(companyId: $companyId, filter: $filter, pagination: $pagination) {
+    totalCount
+    pagination {
+      limit
+      offset
+    }
+    results {
+      ...LoungeTierFragment
+    }
+  }
+}
+
+query GetLoungeTiersAmount {
+  loungeTiers {
+    totalCount
+  }
+}

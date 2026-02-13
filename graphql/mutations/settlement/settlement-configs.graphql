@@ -1,0 +1,25 @@
+mutation CreateSettlementChargeRule(
+  $companyId: String!
+  $input: CreateSettlementChargeRuleInput!
+) {
+  createSettlementChargeRule(companyId: $companyId, input: $input) {
+    ...SettlementChargeRuleFragment
+  }
+}
+
+mutation UpdateSettlementChargeRule(
+  $companyId: String!
+  $id: Int!
+  $input: UpdateSettlementChargeRuleInput!
+) {
+  updateSettlementChargeRule(companyId: $companyId, id: $id, input: $input) {
+    ...SettlementChargeRuleFragment
+  }
+}
+
+mutation RemoveSettlementChargeRule($companyId: String!, $id: Int!) {
+  removeSettlementChargeRule(companyId: $companyId, id: $id) {
+    id
+  }
+}
+

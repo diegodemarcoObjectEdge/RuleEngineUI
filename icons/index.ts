@@ -1,0 +1,12 @@
+export { BuildingIcon } from "./building-icon";
+export { AwardIcon } from "./award-icon";
+export { CheckIcon } from "./check-icon";
+export { CsvFileIcon } from "./csv-file-icon";
+export { EditIcon } from "./edit-icon";
+export { HelpCircleIcon } from "./help-circle-icon";
+export { ImagePlusIcon } from "./image-plus-icon";
+export { LeftChevronIcon } from "./left-chevron-icon";
+export { LogOutIcon } from "./log-out-icon";
+export { PlaneIcon } from "./plane-icon";
+export { SearchIcon } from "./search-icon";
+export { TrashIcon } from "./trash-icon";

@@ -1,0 +1,12 @@
+query GetProfiles($companyId: String, $filter: ProfileFilterInput, $pagination: PaginationInput) {
+  profiles(companyId: $companyId, filter: $filter, pagination: $pagination) {
+    results {
+      ...ProfileFragment
+    }
+    totalCount
+    pagination {
+      offset
+      limit
+    }
+  }
+}

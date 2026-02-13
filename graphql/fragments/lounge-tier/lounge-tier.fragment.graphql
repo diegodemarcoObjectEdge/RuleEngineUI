@@ -1,0 +1,15 @@
+fragment LoungeTierFragment on LoungeTier {
+  id
+  tier
+  name
+  status
+  lounges {
+    id
+    name
+  }
+  company {
+    id
+    name
+    shortName
+  }
+}

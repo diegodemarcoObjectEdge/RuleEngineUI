@@ -1,0 +1,8 @@
+fragment RuleEngineFragment on RuleEngine {
+  id
+  company {
+    id
+  }
+  name
+  type
+}

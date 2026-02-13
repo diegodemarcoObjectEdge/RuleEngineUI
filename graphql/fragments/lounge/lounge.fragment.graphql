@@ -1,0 +1,33 @@
+fragment LoungeFragment on Lounge {
+  id
+  name
+  location
+  code
+  externalId
+  checkoutId
+  gate
+  amenities
+  maximumCapacity
+  minimumAgeEntry
+  reservedSeats
+  entryTypes
+  openTime
+  closeTime
+  status
+  company {
+    id
+    name
+  }
+  airport {
+    id
+    name
+    code
+    city
+    country
+    geoPos
+  }
+  loungeTier {
+    id
+    name
+  }
+}

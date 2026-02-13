@@ -1,0 +1,42 @@
+query GetRuleEngines(
+  $companyId: ID
+  $type: String
+  $search: String
+  $pagination: PaginationInput
+  $sort: RuleEngineSortInput
+  $withModels: Boolean
+) {
+  ruleEngines(
+    companyId: $companyId
+    type: $type
+    search: $search
+    pagination: $pagination
+    sort: $sort
+    withModels: $withModels
+  ) {
+    totalCount
+    pagination {
+      offset
+      limit
+    }
+    results {
+      id
+      company {
+        id
+      }
+      name
+      type
+      models {
+        id
+        createdAt
+        isActive
+        model
+        urlPath
+        createdBy {
+          id
+          name
+        }
+      }
+    }
+  }
+}

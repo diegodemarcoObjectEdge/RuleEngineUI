@@ -1,0 +1,9 @@
+mutation InviteUser($companyId: String, $payload: InviteUserPayload!) {
+  inviteUser(companyId: $companyId, payload: $payload)
+}
+
+mutation Register($payload: RegisterUserPayload!) {
+  register(payload: $payload) {
+    ...UserFragment
+  }
+}

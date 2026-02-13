@@ -1,0 +1,22 @@
+mutation CreateLoungeTier(
+  $companyId: String!
+  $input: CreateLoungeTierPayload!
+) {
+  createLoungeTier(companyId: $companyId, input: $input) {
+    ...LoungeTierFragment
+  }
+}
+
+mutation UpdateLoungeTier(
+  $companyId: String!
+  $id: ID!
+  $input: UpdateLoungeTierPayload!
+) {
+  updateLoungeTier(companyId: $companyId, id: $id, input: $input) {
+    ...LoungeTierFragment
+  }
+}
+
+mutation RemoveLoungeTier($companyId: String!, $id: ID!) {
+  removeLoungeTier(companyId: $companyId, id: $id)
+}

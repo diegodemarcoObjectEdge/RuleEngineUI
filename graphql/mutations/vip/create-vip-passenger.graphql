@@ -1,0 +1,3 @@
+mutation CreateVipPassenger($companyId: String!, $input: CreateVipPassengerInput!) {
+  createVipPassenger(companyId: $companyId, input: $input) { id }
+}

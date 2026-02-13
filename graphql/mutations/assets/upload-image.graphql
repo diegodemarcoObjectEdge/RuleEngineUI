@@ -1,0 +1,6 @@
+mutation UploadImage($image: AssetImageInput!) {
+  uploadImage(image: $image) {
+    name
+    urlPath
+  }
+}

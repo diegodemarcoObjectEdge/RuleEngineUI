@@ -1,0 +1,15 @@
+mutation CreateProfile($companyId: String!, $input: ProfileInput!) {
+  createProfile(companyId: $companyId, input: $input) {
+    ...ProfileFragment
+  }
+}
+
+mutation UpdateProfile($companyId: String!, $id: ID!, $input: ProfileInput!) {
+  updateProfile(companyId: $companyId, id: $id, input: $input) {
+    ...ProfileFragment
+  }
+}
+
+mutation RemoveProfile($companyId: String!, $id: ID!) {
+  removeProfile(companyId: $companyId, id: $id)
+}

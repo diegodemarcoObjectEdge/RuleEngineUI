@@ -1,0 +1,33 @@
+mutation DeleteUser($companyId: String!, $id: ID!) {
+  deleteUser(companyId: $companyId, id: $id)
+}
+
+mutation CreateUser($companyId: String!, $payload: CreateUserPayload!) {
+  createUser(companyId: $companyId, payload: $payload) {
+    ...UserFragment
+  }
+}
+
+mutation UpdateUser(
+  $companyId: String!
+  $id: ID!
+  $payload: UpdateUserPayload!
+) {
+  updateUser(companyId: $companyId, id: $id, payload: $payload) {
+    ...UserFragment
+  }
+}
+
+mutation ImportUsers($url: String!) {
+  importUsers(payload: { urlPath: $url }) {
+    success
+    newItems
+    changedItems
+    unchangedItems
+    errorItems
+    errors {
+      itemId
+      message
+    }
+  }
+}

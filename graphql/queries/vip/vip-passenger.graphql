@@ -1,0 +1,3 @@
+query GetVipPassenger($companyId: String!, $id: ID!) {
+  vipPassenger(companyId: $companyId, id: $id) { ...VipPassengerFragment }
+}

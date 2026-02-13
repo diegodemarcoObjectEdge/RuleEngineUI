@@ -1,0 +1,4 @@
+fragment PermissionFragment on Permission {
+  id
+  name
+}

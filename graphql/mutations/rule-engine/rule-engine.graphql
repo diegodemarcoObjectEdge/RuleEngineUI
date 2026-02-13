@@ -1,0 +1,23 @@
+mutation CreateRuleEngine(
+  $companyId: String!
+  $payload: CreateRuleEnginePayload!
+) {
+  createRuleEngine(companyId: $companyId, payload: $payload) {
+    ...RuleEngineFragment
+  }
+}
+
+mutation CreateRuleEngineModel(
+  $companyId: String!
+  $payload: CreateRuleEngineModelPayload!
+) {
+  createRuleEngineModel(companyId: $companyId, payload: $payload) {
+    id
+    ruleEngine {
+      id
+    }
+    createdAt
+    isActive
+    urlPath
+  }
+}

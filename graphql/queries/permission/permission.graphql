@@ -1,0 +1,5 @@
+query GetPermissions($filter: PermissionFilterInput) {
+  permissions(filter: $filter) {
+    ...PermissionFragment
+  }
+}

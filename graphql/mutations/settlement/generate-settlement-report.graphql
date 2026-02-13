@@ -1,0 +1,14 @@
+mutation GenerateSettlementReport(
+  $companyId: String!
+  $year: Int!
+  $month: Int!
+) {
+  generateSettlementReport(
+    companyId: $companyId
+    year: $year
+    month: $month
+  ) {
+    urlPath
+  }
+}
+

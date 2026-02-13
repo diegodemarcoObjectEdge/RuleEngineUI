@@ -1,0 +1,14 @@
+fragment VipPassengerFragment on VipPassenger {
+  id
+  passengerName
+  loyaltyNumber
+  type
+  recordLocator
+  date
+  airport {
+    id
+    code
+  }
+  isPermanent
+  companyCode
+}

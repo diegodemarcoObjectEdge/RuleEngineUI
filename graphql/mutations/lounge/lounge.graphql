@@ -1,0 +1,40 @@
+mutation CreateLounge($companyId: String!, $input: CreateLoungePayload!) {
+  createLounge(companyId: $companyId, input: $input) {
+    ...LoungeFragment
+  }
+}
+
+mutation RemoveLounge($companyId: String!, $id: ID!) {
+  removeLounge(companyId: $companyId, id: $id)
+}
+
+mutation updateLounge(
+  $companyId: String!
+  $id: ID!
+  $input: UpdateLoungePayload!
+) {
+  updateLounge(companyId: $companyId, id: $id, input: $input) {
+    ...LoungeFragment
+  }
+}
+
+mutation UploadBulkImportFile($bulkImport: BulkImportFileInput!) {
+  uploadBulkImportFile(bulkImport: $bulkImport) {
+    name
+    urlPath
+  }
+}
+
+mutation ImportLounges($url: String!) {
+  importLounges(payload: { urlPath: $url }) {
+    success
+    newItems
+    changedItems
+    unchangedItems
+    errorItems
+    errors {
+      itemId
+      message
+    }
+  }
+}

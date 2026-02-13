@@ -1,0 +1,3 @@
+mutation RemoveVipPassenger($companyId: String!, $id: ID!) {
+  removeVipPassenger(companyId: $companyId, id: $id)
+}

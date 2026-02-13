@@ -1,0 +1,6 @@
+query GetRuleEngineModel($companyId: String!, $id: ID!) {
+  ruleEngineModel(companyId: $companyId, id: $id) {
+    id
+    model
+  }
+}

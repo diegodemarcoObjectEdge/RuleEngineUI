@@ -1,0 +1,31 @@
+"id","company_id","field_group_id","field_type_id","name","path","order"
+1,10,1,3,"Age","$nodes.request.passenger.age",100
+2,10,1,5,"Is OSI","$nodes.request.passenger.isMilitary",200
+3,10,1,5,"Has PNR","$nodes.request.passenger.hasPNR",300
+4,10,1,5,"Is Employee","$nodes.request.passenger.isEmployee",400
+5,10,2,2,"Airline Code","operatorCarrierCode",100
+6,10,2,5,"Is Transcontinental Flight","isTranscontinental",200
+7,10,2,5,"Is International Flight","isInternational",300
+8,10,2,5,"Is Current Flight","isCurrentFlight",400
+9,10,3,12,"Departure Airport","departure.airportCode",100
+10,10,3,12,"Arrival Airport","arrival.airportCode",200
+11,10,3,10,"Lounge Location","loungeLocation",400
+12,10,3,3,"Lounge Tier","$nodes.request.lounge.tier",500
+13,10,4,2,"Cabin Code","cabin.code",100
+14,10,4,2,"Cabin Brand","cabin.name",200
+15,10,5,5,"Is Club Member","$nodes.request.passenger.isClubMember",100
+16,10,5,2,"Club Names","$nodes.request.passenger.membershipCode",200
+17,10,5,1,"Bundle Code","$nodes.request.passenger.bundleStatusCode",300
+18,10,6,2,"Frequent Flyer Airlines","$nodes.request.passenger.frequentFlyerAirline",100
+19,10,6,2,"Frequent Flyer Codes","$nodes.request.passenger.frequentFlyerCode",200
+20,10,7,3,"Rule Priority","ruleEngine.rulePriority",100
+21,10,8,9,"Result","ruleEngine.status",100
+22,10,8,1,"Result Reason","ruleEngine.reason",200
+23,10,8,1,"Agent Note","ruleEngine.note",400
+24,10,9,8,"Allowed Guest Types","ruleEngine.guests.guestType",100
+25,10,9,3,"Number of Allowed Guests","ruleEngine.guests.allowedQuantity",200
+26,10,10,3,"Maximum Lounge Tier","ruleEngine.loungeMaxTier",100
+27,10,10,3,"Allowed Hour Difference","ruleEngine.allowedHourDifference",200
+28,10,1,5,"Is Non-Rev","$nodes.request.passenger.isNonRev",500
+29,10,1,5,"Is Crew Member","$nodes.request.passenger.isCrewMember",600
+30,10,3,13,"Lounge Code","loungeCode",300

@@ -1,0 +1,7 @@
+"id","company_id","created_at","name","type","current_model_id"
+1,10,"2025-06-27 10:48:23.537","United Airlines - Lounge Entry Eligibility","lounge-entry",288
+2,10,"2025-07-10 17:28:51.114","United Airlines - Membership Eligibility","membership",289
+3,965,"2025-11-01 18:26:45.565","Membership Rules","membership",168
+4,965,"2025-11-01 18:26:59.529","Lounge Entry Rules","lounge-entry",173
+5,966,"2025-11-04 12:23:38.596","Membership Rules","membership",164
+6,966,"2025-11-04 12:23:49.312","Lounge Entry Rules","lounge-entry",174

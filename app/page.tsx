@@ -14,6 +14,14 @@ export default function Home() {
         >
           Go to Rule Engine
         </Link>
+        <div className="mt-3">
+          <Link
+            href="/lounge-entry-rule-engine"
+            className="inline-block rounded-lg border border-blue-600 px-6 py-3 text-blue-700 hover:bg-blue-50"
+          >
+            Go to Lounge Entry Rule Engine
+          </Link>
+        </div>
       </div>
     </main>
   );

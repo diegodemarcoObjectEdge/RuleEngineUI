@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 
 import { Input } from "../../components/design-system/input";
 import { Button } from "../../components/design-system/button";
@@ -383,6 +384,12 @@ const RuleEnginePage: React.FC = () => {
               name="search"
               onChange={(e) => setSearchValue(e.target.value)}
             />
+            <Link
+              href="/lounge-entry-rule-engine"
+              className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-xs hover:bg-gray-50"
+            >
+              Open Rule Builder
+            </Link>
             <Button onClick={() => setUploadDialogOpen(true)}>
               Upload JSON
             </Button>

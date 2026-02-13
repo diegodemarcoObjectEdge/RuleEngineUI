@@ -6,7 +6,8 @@
     "dev": "next dev",
     "db:setup": "prisma generate && prisma db push",
     "db:seed": "prisma db seed",
-    "build": "next build"
+    "build": "yarn db:setup && yarn db:seed && next build",
+    "build:all": "yarn build"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

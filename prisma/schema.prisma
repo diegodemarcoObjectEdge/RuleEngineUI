@@ -4,8 +4,31 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id                           Int       @id
+  name                         String
+  shortName                    String?   @map("short_name")
+  code                         String
+  status                       String
+  createdAt                    DateTime  @default(now()) @map("created_at")
+  updatedAt                    DateTime  @updatedAt @map("updated_at")
+  serviceUrl                   String?   @map("service_url")
+  agentAppUrl                  String?   @map("agent_app_url")
+  darkBackgroundLogoUrl        String?   @map("dark_background_logo_url")
+  lightBackgroundLogoUrl       String?   @map("light_background_logo_url")
+  logomarkUrl                  String?   @map("logomark_url")
+  egateReentryWindowMinutes    Int?      @map("egate_reentry_window_minutes")
+  reentryWindowMinutes         Int?      @map("reentry_window_minutes")
+  reentryWindowType            String?   @map("reentry_window_type")
+  reportsDedupingWindowMinutes Int?      @map("reports_deduping_window_minutes")
+  partnerCompanyGroupId        Int?      @map("partner_company_group_id")
+  placePolicy                  String?
+
+  @@map("company")
 }
 
 model RuleEngine {

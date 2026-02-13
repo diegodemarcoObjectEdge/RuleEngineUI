@@ -376,7 +376,7 @@ const RuleEnginePage: React.FC = () => {
       <div className="inline-flex h-full w-full flex-col items-center justify-start gap-5 px-8">
         <div className="flex w-full flex-row items-center justify-between">
           <h1 className="text-lg font-semibold">Rule Engine</h1>
-          <div className="flex flex-1/2 flex-row items-center justify-end gap-3">
+          <div className="flex w-full flex-wrap items-center justify-end gap-3">
             <Input
               placeholder="Search Rule Engine"
               iconLeft={<SearchIcon width={20} height={20} />}

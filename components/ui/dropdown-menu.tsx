@@ -38,16 +38,24 @@ export const DropdownMenu = ({
 
   return (
     <div ref={rootRef} className={cn("relative", className)}>
-      <button
-        type="button"
-        className="outline-none"
+      <div
+        className="inline-flex outline-none"
+        role="button"
+        tabIndex={0}
         onClick={(event) => {
           event.stopPropagation();
           setOpen((prev) => !prev);
         }}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            event.stopPropagation();
+            setOpen((prev) => !prev);
+          }
+        }}
       >
         {title}
-      </button>
+      </div>
 
       {open ? (
         <div className="bg-popover text-popover-foreground absolute right-0 z-50 mt-1 min-w-[8rem] rounded-md border p-1 shadow-md">
@@ -75,4 +83,3 @@ export const DropdownMenu = ({
     </div>
   );
 };
-

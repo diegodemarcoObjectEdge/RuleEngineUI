@@ -11,3 +11,4 @@ export const MapSkeleton: React.FC = () => {
     </div>
   );
 };
+

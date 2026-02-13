@@ -2,7 +2,7 @@ import {
   TableBody,
   TableCell,
   TableRow,
-} from "../design-system/table";
+} from "../../design-system/table";
 import { Skeleton } from "./skeleton";
 
 export const TableSkeleton: React.FC = () => {
@@ -39,3 +39,5 @@ export const TableSkeleton: React.FC = () => {
     </TableBody>
   );
 };
+
+

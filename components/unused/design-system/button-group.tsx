@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 export interface ButtonGroupOption<T extends string = string> {
   value: T;
@@ -61,3 +61,4 @@ export function ButtonGroup<T extends string = string>({
 }
 
 ButtonGroup.displayName = "ButtonGroup";
+

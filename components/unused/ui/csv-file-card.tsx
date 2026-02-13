@@ -1,4 +1,4 @@
-import { CsvFileIcon } from "../../icons";
+import { CsvFileIcon } from "../../../icons";
 
 interface CsvFileCardProps {
   name: string;
@@ -30,3 +30,4 @@ export const CsvFileCard: React.FC<CsvFileCardProps> = ({
     </div>
   );
 };
+

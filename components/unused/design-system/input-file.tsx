@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 import { DownloadCloudIcon } from "lucide-react";
 import React, { useCallback, useState } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
@@ -131,3 +131,4 @@ export const InputFile = React.forwardRef<HTMLInputElement, InputFileProps>(
 );
 
 InputFile.displayName = "InputFile";
+

@@ -6,9 +6,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 import React, { useState } from "react";
-import { CheckIcon } from "../../icons";
+import { CheckIcon } from "../../../icons";
 
 type Option = {
   value: string;
@@ -126,3 +126,5 @@ export function MultiSelect({
 }
 
 MultiSelect.displayName = "MultiSelect";
+
+

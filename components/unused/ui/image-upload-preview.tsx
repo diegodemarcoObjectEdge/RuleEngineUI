@@ -1,9 +1,9 @@
 import {
   ImageValidationResult,
   formatDimensions,
-} from "../../utils/image-validation";
+} from "../../../utils/image-validation";
 import { Loader2Icon, CheckCircleIcon, XCircleIcon } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 import Image from "next/image";
 
 interface ImageUploadPreviewProps {
@@ -96,3 +96,5 @@ export function ImageUploadPreview({
     </div>
   );
 }
+
+

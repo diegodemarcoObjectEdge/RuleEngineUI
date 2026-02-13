@@ -1,6 +1,6 @@
 "use client";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   Command,
   CommandEmpty,
@@ -8,13 +8,13 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../ui/command";
+} from "../../ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../ui/popover";
-import { cn } from "../../lib/utils";
+} from "../../ui/popover";
+import { cn } from "../../../lib/utils";
 import { useState } from "react";
 
 type Option = {
@@ -111,3 +111,5 @@ export function Combobox({
     </Popover>
   );
 }
+
+

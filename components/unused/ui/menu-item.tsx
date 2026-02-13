@@ -31,3 +31,4 @@ export function MenuItem({ path, title }: MenuItemProps) {
     </li>
   );
 }
+

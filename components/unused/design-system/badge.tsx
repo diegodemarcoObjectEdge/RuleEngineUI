@@ -1,6 +1,6 @@
 import React from "react";
 import { tv, type VariantProps } from "tailwind-variants";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 const badgeVariants = tv({
   base: "min-w-8 rounded border-1 p-1 text-center text-sm font-bold",
@@ -31,3 +31,4 @@ export const Badge: React.FC<BadgeProps> = ({
 };
 
 Badge.displayName = "Badge";
+

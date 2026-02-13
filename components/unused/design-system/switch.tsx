@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as SwitchPrimitive from "@radix-ui/react-switch";
 import { tv } from "tailwind-variants";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 const switchRootVariants = tv({
   base: "flex shrink-0 items-center justify-start overflow-hidden rounded-full p-0.5 disabled:bg-gray-100",
@@ -91,3 +91,4 @@ function Switch({
 }
 
 export { Switch };
+

@@ -37,3 +37,4 @@ export const AvatarWithLabel: React.FC<AvatarWithLabelProps> = ({
     </div>
   );
 };
+

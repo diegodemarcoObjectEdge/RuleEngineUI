@@ -30,3 +30,4 @@ export const TableEmptyState: React.FC<TableEmptyStateProps> = ({
     </div>
   );
 };
+

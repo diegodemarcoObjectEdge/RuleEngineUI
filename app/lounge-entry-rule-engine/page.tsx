@@ -225,10 +225,10 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
   });
   const [fieldForm, setFieldForm] = useState({
     ruleId: "",
-    fieldId: "",
-    operator: "EQUALS",
-    value: "",
   });
+  const [fieldDraftValues, setFieldDraftValues] = useState<
+    Record<string, string>
+  >({});
 
   const { data: companiesData } = useGetCompanyListQuery({
     variables: { filter: {} },
@@ -435,18 +435,15 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
     setRuleDialogOpen(false);
   };
 
-  const addField = () => {
+  const upsertFieldValue = (field: RuleField, value: string) => {
     if (!activeTagId) {
-      toast.error("Select a tag first.");
       return;
     }
-    if (!fieldForm.ruleId || !fieldForm.fieldId) {
-      toast.error("Rule and field are required.");
+    if (!fieldForm.ruleId) {
       return;
     }
 
-    const selectedField = allFields.find((field) => field.id === fieldForm.fieldId);
-    const baseType = selectedField?.baseType ?? "STRING";
+    const baseType = field?.baseType ?? "STRING";
 
     setTagGroups((prev) =>
       prev.map((group) => ({
@@ -459,19 +456,35 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
                   rule.id === fieldForm.ruleId
                     ? {
                         ...rule,
-                        values: [
-                          ...rule.values,
-                          {
-                            id: createId(),
-                            fieldId: fieldForm.fieldId,
-                            operator: fieldForm.operator,
-                            leftOperand: {
-                              type: baseType,
-                              value: fieldForm.value,
+                        values: (() => {
+                          const existingIndex = rule.values.findIndex(
+                            (item) => item.fieldId === field.id,
+                          );
+                          if (existingIndex >= 0) {
+                            const updated = [...rule.values];
+                            updated[existingIndex] = {
+                              ...updated[existingIndex],
+                              leftOperand: {
+                                ...updated[existingIndex].leftOperand,
+                                value,
+                              },
+                            };
+                            return updated;
+                          }
+                          return [
+                            ...rule.values,
+                            {
+                              id: createId(),
+                              fieldId: field.id,
+                              operator: field.allowedOperators?.[0] ?? "EQUALS",
+                              leftOperand: {
+                                type: baseType,
+                                value,
+                              },
+                              rightOperand: null,
                             },
-                            rightOperand: null,
-                          },
-                        ],
+                          ];
+                        })(),
                       }
                     : rule,
                 ),
@@ -480,14 +493,6 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
         ),
       })),
     );
-
-    setFieldForm({
-      ruleId: "",
-      fieldId: "",
-      operator: "EQUALS",
-      value: "",
-    });
-    setFieldDialogOpen(false);
   };
 
   const duplicateTag = (tagId: string) => {
@@ -637,13 +642,18 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
     value: rule.id,
   }));
 
-  const selectedField = allFields.find((field) => field.id === fieldForm.fieldId);
-  const operatorOptions = (selectedField?.allowedOperators ?? ["EQUALS"]).map(
-    (operator) => ({
-      label: operator,
-      value: operator,
-    }),
+  const selectedRule = (activeTag?.rules ?? []).find(
+    (rule) => rule.id === fieldForm.ruleId,
   );
+  const selectedRuleValuesByFieldId = new Map(
+    (selectedRule?.values ?? []).map((value) => [value.fieldId, value]),
+  );
+  const inputFieldGroups = fieldGroups
+    .filter((group) => group.type === "INPUT")
+    .sort((a, b) => a.order - b.order);
+  const outputFieldGroups = fieldGroups
+    .filter((group) => group.type === "OUTPUT")
+    .sort((a, b) => a.order - b.order);
 
   return (
     <section className="container flex min-h-dvh min-w-2xl flex-col px-8 pt-12 align-middle">
@@ -936,12 +946,14 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
       </Dialog>
 
       <Dialog open={fieldDialogOpen} onOpenChange={setFieldDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-h-[85vh] max-w-5xl overflow-hidden">
           <DialogHeader>
             <DialogTitle>Add Field</DialogTitle>
-            <DialogDescription>Add a field condition to a rule.</DialogDescription>
+            <DialogDescription>
+              Select a rule, then add fields from INPUT and OUTPUT lists.
+            </DialogDescription>
           </DialogHeader>
-          <div className="space-y-3">
+          <div className="space-y-3 overflow-y-auto pr-1">
             <Select
               placeholderLabel="Select Rule"
               options={ruleOptions}
@@ -950,44 +962,141 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
                 setFieldForm((prev) => ({ ...prev, ruleId: value }))
               }
             />
-            <Select
-              placeholderLabel="Select Field"
-              options={allFields.map((field) => ({
-                label: field.name,
-                value: field.id,
-              }))}
-              value={fieldForm.fieldId}
-              onItemChange={(value) =>
-                setFieldForm((prev) => ({
-                  ...prev,
-                  fieldId: value,
-                  operator: "EQUALS",
-                }))
-              }
-            />
-            <Select
-              placeholderLabel="Operator"
-              options={operatorOptions}
-              value={fieldForm.operator}
-              onItemChange={(value) =>
-                setFieldForm((prev) => ({ ...prev, operator: value }))
-              }
-            />
-            <Input
-              name="fieldValue"
-              inputSize="sm"
-              placeholder="Value"
-              value={fieldForm.value}
-              onChange={(e) =>
-                setFieldForm((prev) => ({ ...prev, value: e.target.value }))
-              }
-            />
+            {!fieldForm.ruleId ? (
+              <p className="text-sm text-gray-500">
+                Select a rule to view available fields.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="rounded-md border border-gray-200 p-3">
+                  <h4 className="mb-3 text-sm font-semibold text-gray-800">
+                    Input Fields
+                  </h4>
+                  <div className="space-y-3">
+                    {inputFieldGroups.map((group) => (
+                      <div key={group.id} className="space-y-2">
+                        <p className="text-xs font-semibold text-gray-600">
+                          {group.name}
+                        </p>
+                        {group.fields
+                          .slice()
+                          .sort((a, b) => a.order - b.order)
+                          .map((field) => {
+                            const currentValue =
+                              fieldDraftValues[field.id] ??
+                              selectedRuleValuesByFieldId.get(field.id)
+                                ?.leftOperand.value ??
+                              "";
+                            return (
+                              <div
+                                key={field.id}
+                                className="flex items-center gap-2 rounded border border-gray-100 bg-gray-50 px-2 py-1.5"
+                              >
+                                <span className="min-w-[120px] text-sm text-gray-700">
+                                  {field.name}
+                                </span>
+                                <span className="text-sm text-gray-500">:</span>
+                                <Input
+                                  name={`field-input-${field.id}`}
+                                  inputSize="sm"
+                                  placeholder={field.path}
+                                  value={currentValue}
+                                  onChange={(event) =>
+                                    setFieldDraftValues((prev) => ({
+                                      ...prev,
+                                      [field.id]: event.target.value,
+                                    }))
+                                  }
+                                  onBlur={(event) =>
+                                    upsertFieldValue(field, event.target.value)
+                                  }
+                                  onKeyDown={(event) => {
+                                    if (event.key === "Enter") {
+                                      event.preventDefault();
+                                      upsertFieldValue(
+                                        field,
+                                        (event.target as HTMLInputElement).value,
+                                      );
+                                    }
+                                  }}
+                                />
+                              </div>
+                            );
+                          })}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-md border border-gray-200 p-3">
+                  <h4 className="mb-3 text-sm font-semibold text-gray-800">
+                    Output Fields
+                  </h4>
+                  <div className="space-y-3">
+                    {outputFieldGroups.map((group) => (
+                      <div key={group.id} className="space-y-2">
+                        <p className="text-xs font-semibold text-gray-600">
+                          {group.name}
+                        </p>
+                        {group.fields
+                          .slice()
+                          .sort((a, b) => a.order - b.order)
+                          .map((field) => {
+                            const currentValue =
+                              fieldDraftValues[field.id] ??
+                              selectedRuleValuesByFieldId.get(field.id)
+                                ?.leftOperand.value ??
+                              "";
+                            return (
+                              <div
+                                key={field.id}
+                                className="flex items-center gap-2 rounded border border-gray-100 bg-gray-50 px-2 py-1.5"
+                              >
+                                <span className="min-w-[120px] text-sm text-gray-700">
+                                  {field.name}
+                                </span>
+                                <span className="text-sm text-gray-500">:</span>
+                                <Input
+                                  name={`field-output-${field.id}`}
+                                  inputSize="sm"
+                                  placeholder={field.path}
+                                  value={currentValue}
+                                  onChange={(event) =>
+                                    setFieldDraftValues((prev) => ({
+                                      ...prev,
+                                      [field.id]: event.target.value,
+                                    }))
+                                  }
+                                  onBlur={(event) =>
+                                    upsertFieldValue(field, event.target.value)
+                                  }
+                                  onKeyDown={(event) => {
+                                    if (event.key === "Enter") {
+                                      event.preventDefault();
+                                      upsertFieldValue(
+                                        field,
+                                        (event.target as HTMLInputElement).value,
+                                      );
+                                    }
+                                  }}
+                                />
+                              </div>
+                            );
+                          })}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <DialogFooter>
-            <Button variant="secondary-gray" onClick={() => setFieldDialogOpen(false)}>
-              Cancel
+            <Button
+              variant="secondary-gray"
+              onClick={() => setFieldDialogOpen(false)}
+            >
+              Close
             </Button>
-            <Button onClick={addField}>Add Field</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

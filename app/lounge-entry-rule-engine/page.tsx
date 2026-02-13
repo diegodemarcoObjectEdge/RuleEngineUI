@@ -93,6 +93,8 @@ type UpdateConsolidatedResult = {
   };
 };
 
+const COMPANY_STORAGE_KEY = "reui_lounge_entry_company_id";
+
 const GET_CONSOLIDATED_TAG_RULE_ENGINE = gql`
   query GetConsolidatedTagRuleEngine($companyId: ID!) {
     consolidatedTagRuleEngine(companyId: $companyId) {
@@ -235,19 +237,44 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
   });
 
   const companyOptions = useMemo(
-    () =>
-      (companiesData?.companies?.results ?? []).map((company) => ({
-        label: company.name,
-        value: company.id,
-      })),
+    () => {
+      const options = (companiesData?.companies?.results ?? []).map(
+        (company) => ({
+          label: company.name,
+          value: company.id,
+        }),
+      );
+      return options.sort((a, b) => Number(a.value) - Number(b.value));
+    },
     [companiesData],
   );
 
   useEffect(() => {
-    if (!selectedCompanyId && companyOptions.length > 0) {
-      setSelectedCompanyId(companyOptions[0].value);
-    }
+    if (companyOptions.length === 0) return;
+
+    const currentStillValid = companyOptions.some(
+      (option) => option.value === selectedCompanyId,
+    );
+    if (currentStillValid) return;
+
+    const storedCompanyId =
+      typeof window !== "undefined"
+        ? window.localStorage.getItem(COMPANY_STORAGE_KEY)
+        : null;
+    const hasStoredOption = companyOptions.some(
+      (option) => option.value === storedCompanyId,
+    );
+    const defaultCompanyId =
+      companyOptions.find((option) => option.value === "10")?.value ??
+      companyOptions[0].value;
+
+    setSelectedCompanyId(hasStoredOption ? (storedCompanyId as string) : defaultCompanyId);
   }, [companyOptions, selectedCompanyId]);
+
+  useEffect(() => {
+    if (!selectedCompanyId || typeof window === "undefined") return;
+    window.localStorage.setItem(COMPANY_STORAGE_KEY, selectedCompanyId);
+  }, [selectedCompanyId]);
 
   const { data, loading, refetch } = useQuery<GetConsolidatedResult>(
     GET_CONSOLIDATED_TAG_RULE_ENGINE,
@@ -660,13 +687,18 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
       <div className="inline-flex h-full w-full flex-col items-center justify-start gap-5 px-8">
         <div className="flex w-full flex-row items-center justify-between gap-3">
           <h1 className="text-lg font-semibold">Rule Engine</h1>
-          <div className="flex flex-row items-center justify-end gap-3 flex-wrap">
-            <Select
-              placeholderLabel="Select Company"
-              options={companyOptions}
-              value={selectedCompanyId}
-              onItemChange={setSelectedCompanyId}
-            />
+          <div className="flex flex-row items-center justify-end gap-3">
+            <div className="flex flex-row items-center gap-3">
+              <Select
+                placeholderLabel="Select Company"
+                options={companyOptions}
+                value={selectedCompanyId}
+                onItemChange={setSelectedCompanyId}
+              />
+              <Button onClick={saveRuleEngine} disabled={saving}>
+                {saving ? "Saving..." : "Save Rule Engine"}
+              </Button>
+            </div>
             <Button
               variant="secondary-gray"
               iconLeft={<DownloadIcon size={15} />}
@@ -690,9 +722,6 @@ const LoungeEntryRuleEnginePage: React.FC = () => {
               disabled={!activeTag || (activeTag.rules ?? []).length === 0}
             >
               Add Field
-            </Button>
-            <Button onClick={saveRuleEngine} disabled={saving}>
-              {saving ? "Saving..." : "Save Rule Engine"}
             </Button>
           </div>
         </div>
